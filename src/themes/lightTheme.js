@@ -2,7 +2,7 @@ import Sun from "../assets/Sun.tsx";
 
 export const theme = {
   icon: {
-    svg: Sun,
+    component: Sun,
     colorWhenChosen: "#ffffff",
   },
   iconContainer: {

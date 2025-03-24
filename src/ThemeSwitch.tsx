@@ -1,34 +1,29 @@
 import "./styles.css";
 import ThemeIconContainer from "./ThemeIconContainer";
-import { themes, themesKeys } from "./themes/themes.js";
-import PropTypes from "prop-types";
+import { themes } from "./themes/themes.js";
 
-export default function ThemeSwitch({ theme, setTheme }) {
-  const calcNextThemeIndex = () => {
-    const nextIndex = (themesKeys.indexOf(theme) + 1) % 2;
-    return nextIndex;
-  };
+type ThemeSwitchProps = {
+  theme: string;
+  setTheme: (theme: string) => void;
+};
 
-  const changeTheme = () => {
-    const nextTheme = themesKeys[calcNextThemeIndex()];
-    setTheme(nextTheme);
-    localStorage.setItem("theme", nextTheme);
+export default function ThemeSwitch({ theme, setTheme }: ThemeSwitchProps) {
+  const themeChosen = (newThemeKey: string) => {
+    if (newThemeKey !== theme) {
+      setTheme(newThemeKey);
+    }
   };
 
   return (
-    <div className="theme-switch" onClick={changeTheme}>
+    <div className="theme-switch">
       {Object.entries(themes).map(([key, value]) => (
         <ThemeIconContainer
           key={key}
-          iconComponent={value.icon.svg}
+          IconComponent={value.icon.component}
           chosen={key === theme}
+          onThemeChosen={() => themeChosen(key)}
         />
       ))}
     </div>
   );
 }
-
-ThemeSwitch.propTypes = {
-  theme: PropTypes.string,
-  setTheme: PropTypes.func,
-};
